@@ -48,14 +48,14 @@ function LoginPage() {
           <div className="lg:w-1/2 xl:w-5/12 p-6 sm:p-12">
             <div>
               <Link href="/" className="text-2xl font-extrabold text-[#4cae9e] flex items-center">
-                <img src="./logo.png" alt="Logo" width={40} /> PlyVault
+                <img src="./logo.png" alt="Logo" width={40} /> ProdEase
               </Link>
             </div>
             <div className="mt-0 flex flex-col items-center">
               <div className="w-full flex-1 mt-8">
                 <div className="my-12 border-b text-center">
                   <div className="leading-none px-2 inline-block text-sm text-gray-600 tracking-wide font-medium bg-white transform translate-y-1/2">
-                    Sign In with PlyVault E-mail
+                    Sign In with ProdEase E-mail
                   </div>
                 </div>
 
@@ -98,7 +98,7 @@ function LoginPage() {
                   </form>
                   {error && <p className="mt-6 text-xs text-red-600 text-center">{error}</p>}
                   <p className="mt-6 text-xs text-gray-600 text-center">
-                    I agree to abide by PlyVault&lsquo;s{' '}
+                    I agree to abide by ProdEase&lsquo;s{' '}
                     <a href="#" className="border-b border-gray-500 border-dotted">
                       Terms of Service
                     </a>{' '}

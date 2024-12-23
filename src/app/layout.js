@@ -6,8 +6,8 @@ import Footer from "../components/Footer";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
-  title: "PlyVault - Product Management Hub",
-  description: "PlyVault is the central hub for PlyPicker team members and admins to efficiently manage all products, from submissions to reviews, with ease and precision.",
+  title: "ProdEase - Product Management Hub",
+  description: "ProdEase is the central hub for team members and admins of a fictional product based company to efficiently manage all products, from submissions to reviews, with ease and precision.",
 };
 
 export default function RootLayout({ children }) {

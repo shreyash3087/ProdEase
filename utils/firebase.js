@@ -2,13 +2,13 @@ import { initializeApp } from "firebase/app";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyBMxv8nuvdFQJ7U14lkQyykW_-YtHIiJ1E",
-  authDomain: "plyvault.firebaseapp.com",
-  projectId: "plyvault",
-  storageBucket: "plyvault.appspot.com",
-  messagingSenderId: "1081149809025",
-  appId: "1:1081149809025:web:b0c8433eb99b86c1764880",
-  measurementId: "G-R3G39ZGKJY"
+  apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
+  authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
+  projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
+  storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: process.env.FNEXT_PUBLIC_IREBASE_MESSAGING_SENDER_ID,
+  appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
+  measurementId: process.env.NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID
 };
 
 const app = initializeApp(firebaseConfig);

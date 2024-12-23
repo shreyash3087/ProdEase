@@ -4,7 +4,6 @@ import { verifyToken } from '@/utils/jwt';
 export async function GET(req) {
   const tokenObject = req.cookies.get('token');
   const token = tokenObject ? tokenObject.value : null;
-  console.log('Dashboard Cookies:', req.cookies.getAll());
   if (!token) {
     console.log('No token found.');
     return NextResponse.json({ user: null }, { status: 401 });

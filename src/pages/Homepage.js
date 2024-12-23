@@ -1,17 +1,16 @@
 "use client";
-import { useState } from 'react';
-import { toast, ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { useState } from "react";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function Home() {
-  
   const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    message: '',
+    name: "",
+    email: "",
+    message: "",
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitError, setSubmitError] = useState('');
+  const [submitError, setSubmitError] = useState("");
 
   function scrollToGetStarted(event) {
     event.preventDefault();
@@ -28,31 +27,31 @@ export default function Home() {
   async function handleSubmit(event) {
     event.preventDefault();
     setIsSubmitting(true);
-    setSubmitError('');
-  
+    setSubmitError("");
+
     try {
-      const response = await fetch('/api/contact', {
-        method: 'POST',
+      const response = await fetch("/api/contact", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify(formData),
       });
-  
+
       if (!response.ok) {
-        throw new Error('Network response was not ok.');
+        throw new Error("Network response was not ok.");
       }
-  
+
       const result = await response.json();
-      console.log('Form submission successful:', result);
-      setFormData({ name: '', email: '', message: '' });
+      console.log("Form submission successful:", result);
+      setFormData({ name: "", email: "", message: "" });
 
-      toast.success('Message sent successfully!');
+      toast.success("Message sent successfully!");
     } catch (error) {
-      console.error('Form submission error:', error);
-      setSubmitError('Failed to send message. Please try again later.');
+      console.error("Form submission error:", error);
+      setSubmitError("Failed to send message. Please try again later.");
 
-      toast.error('Failed to send message. Please try again later.');
+      toast.error("Failed to send message. Please try again later.");
     } finally {
       setIsSubmitting(false);
     }
@@ -60,7 +59,7 @@ export default function Home() {
 
   function handleChange(event) {
     const { name, value } = event.target;
-    setFormData(prevData => ({ ...prevData, [name]: value }));
+    setFormData((prevData) => ({ ...prevData, [name]: value }));
   }
   return (
     <div>
@@ -71,11 +70,12 @@ export default function Home() {
           <div className="absolute inset-0 bg-opacity-50 bg-black"></div>
           <div className="relative z-10 -top-12 text-center max-w-4xl">
             <h1 className="text-6xl font-extrabold mb-6 drop-shadow-lg">
-              Welcome to <span className="text-[#6ce5d1]">PlyVault</span>
+              Welcome to <span className="text-[#6ce5d1]">ProdEase</span>
             </h1>
             <p className="text-2xl font-light mb-10 max-w-2xl mx-auto drop-shadow-lg">
-              PlyVault is the central hub for PlyPicker team members and admins
-              to manage all products with ease and efficiency.
+              ProdEase is the central hub for a fictional product based
+              company's team members and admins to manage all products with ease
+              and efficiency.
             </p>
             <div
               onClick={scrollToGetStarted}
@@ -120,16 +120,16 @@ export default function Home() {
               ></path>
             </svg>
             <p className="text-sm font-semibold text-[#1d9bf0]">
-              Introducing Plyvault
+              Introducing ProdEase
             </p>
           </a>
           <h1 className="mt-8 max-w-sm bg-gradient-to-br from-gray-500 via-teal-500 to-gray-500 bg-clip-text text-center text-4xl font-extrabold text-transparent sm:max-w-4xl sm:text-6xl">
-            Premier Hub for Managing Plypicker
+            Premier Hub for Managing Products
           </h1>
           <span className="mt-8 max-w-lg text-center text-xl leading-relaxed text-gray-800">
-            Whether you&lsquo;re an admin or a valued member of the Plypicker
-            community, dive in to seamlessly oversee and manage Plypicker&lsquo;s
-            products and services.
+            Whether you&lsquo;re an admin or a valued member of the ProdEase
+            community, dive in to seamlessly oversee and manage products and
+            services.
           </span>
           <p className="mt-3 rounded border px-3 py-1 shadow">
             🚀 <span className="text-accent font-semibold">Explore</span> your
@@ -171,16 +171,16 @@ export default function Home() {
           <span className="mx-4 text-gray-500">. . . . </span>
           <div className="flex-grow border-t border-gray-300"></div>
         </div>
-        {/* About PlyVault Section */}
+        {/* About ProdEase Section */}
         <section className="py-16 bg-white">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
             <h2 className="text-4xl font-extrabold text-gray-900 mb-8">
-              About <span className="text-[#4cae9e]">PlyVault</span>
+              About <span className="text-[#4cae9e]">ProdEase</span>
             </h2>
             <p className="mt-4 text-lg text-gray-700 max-w-4xl mx-auto">
-              PlyVault is your all-in-one product management solution within the
-              PlyPicker ecosystem. Whether you are an admin managing the entire
-              inventory or a team member with an idea in mind, PlyVault provides
+              ProdEase is your all-in-one product management solution within the
+              ProdEase ecosystem. Whether you are an admin managing the entire
+              inventory or a team member with an idea in mind, ProdEase provides
               a seamless experience tailored to your needs.
             </p>
             <div className="mt-12 grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -217,7 +217,7 @@ export default function Home() {
                 onClick={scrollToGetStarted}
                 className="bg-[#4cae9e] cursor-pointer text-white w-56 m-auto px-8 py-4 rounded-lg font-medium hover:bg-[#4cae9e] transition duration-300"
               >
-                Explore PlyVault
+                Explore ProdEase
               </div>
             </div>
           </div>
@@ -226,12 +226,12 @@ export default function Home() {
         <div className="relative py-20 bg-gradient-to-b from-[#178573] to-[#105b4f] text-white">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
             <h2 className="text-4xl font-extrabold">
-              Discover the Power of PlyPicker and PlyVault
+              Discover the Power of ProdEase
             </h2>
             <p className="mt-4 text-lg max-w-3xl mx-auto">
-              Explore how PlyPicker revolutionizes the home furnishing industry
-              and how PlyVault enhances its team&lsquo;s product management
-              experience.
+              Explore how ProdEase enhances its team&lsquo;s product management
+              experience, providing intuitive dashboards for team members and
+              admins to efficiently manage and monitor inventory.
             </p>
           </div>
         </div>
@@ -247,7 +247,8 @@ export default function Home() {
                   Get in Touch
                 </h2>
                 <p className="mx-auto mt-4 max-w-3xl text-xl text-gray-600 dark:text-slate-400">
-                  We&lsquo;re committed to providing exceptional service and support.
+                  We&lsquo;re committed to providing exceptional service and
+                  support.
                 </p>
               </div>
             </div>
@@ -255,7 +256,10 @@ export default function Home() {
               <div className="grid md:grid-cols-2">
                 <div className="h-full pr-6">
                   <p className="mt-3 mb-12 text-lg text-gray-600 dark:text-slate-400">
-                    Reach out to us for any inquiries or support. We&lsquo;re here to help you with all your questions and concerns. Let’s start a conversation and find the best solution together.
+                    Reach out to us for any inquiries or support. We&lsquo;re
+                    here to help you with all your questions and concerns.
+                    Let&lsquo;s start a conversation and find the best solution
+                    together.
                   </p>
                   <ul className="mb-6 md:mb-0">
                     <li className="flex">
@@ -281,10 +285,10 @@ export default function Home() {
                           Our Address
                         </h3>
                         <p className="text-gray-600 dark:text-slate-400">
-                          Sr No 251/4, Plypicker house, Vrindavan Nagar,
+                          Sr No 1/234, ProdEase
                         </p>
                         <p className="text-gray-600 dark:text-slate-400">
-                          Pune, Maharashtra 411021
+                          ABC, Maharashtra 12345
                         </p>
                       </div>
                     </li>
@@ -315,7 +319,7 @@ export default function Home() {
                           Mobile: +1 (123) 456-7890
                         </p>
                         <p className="text-gray-600 dark:text-slate-400">
-                          Mail: support@plypicker.com
+                          Mail: support@prodease.com
                         </p>
                       </div>
                     </li>
@@ -421,11 +425,13 @@ export default function Home() {
                       <button
                         type="submit"
                         className={`inline-block rounded-lg border border-transparent px-8 py-3 text-base font-semibold text-white shadow-sm ring-1 ring-gray-900/10 transition-all hover:ring-gray-900/20 ${
-                          isSubmitting ? 'bg-gray-400 cursor-not-allowed' : 'bg-[#4cae9e]'
+                          isSubmitting
+                            ? "bg-gray-400 cursor-not-allowed"
+                            : "bg-[#4cae9e]"
                         }`}
                         disabled={isSubmitting}
                       >
-                        {isSubmitting ? 'Submitting...' : 'Submit'}
+                        {isSubmitting ? "Submitting..." : "Submit"}
                       </button>
                     </div>
                   </form>

@@ -11,9 +11,9 @@ export default function Footer() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           <div>
-            <h3 className="text-2xl font-semibold mb-4">PlyVault</h3>
+            <h3 className="text-2xl font-semibold mb-4">ProdEase</h3>
             <p className="text-gray-400">
-              Your ultimate hub for managing PlyPicker products with efficiency and ease.
+              Your ultimate hub for managing products with efficiency and ease.
             </p>
             
           </div>
@@ -58,7 +58,7 @@ export default function Footer() {
         </div>
 
         <div className="mt-10 border-t border-gray-700 pt-6 text-center text-gray-500">
-          &copy; 2024 PlyVault. All rights reserved.
+          &copy; 2024 ProdEase. All rights reserved.
         </div>
       </div>
     </footer>

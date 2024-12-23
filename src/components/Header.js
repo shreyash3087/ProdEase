@@ -74,7 +74,7 @@ export default function Header() {
             href="/"
             className="text-2xl font-extrabold text-[#4cae9e] flex items-center"
           >
-            <img src="/logo.png" alt="Logo" width={40} /> PlyVault
+            <img src="/logo.png" alt="Logo" width={40} /> ProdEase
           </Link>
         </div>
 
