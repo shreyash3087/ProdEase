@@ -74,7 +74,7 @@ export default function Home() {
             </h1>
             <p className="text-2xl font-light mb-10 max-w-2xl mx-auto drop-shadow-lg">
               ProdEase is the central hub for a fictional product based
-              company's team members and admins to manage all products with ease
+              company&apos;s team members and admins to manage all products with ease
               and efficiency.
             </p>
             <div
