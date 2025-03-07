@@ -4,9 +4,6 @@
 
 ProdEase is a centralized platform designed to streamline the management of products for team members and admins in a fictional product-based company. From submissions to reviews, ProdEase offers a seamless and precise workflow for efficient product management.
 
-## Repository Under: AcWoC'25
-## Club: Android Club, VIT Bhopal University
-
 ## Features
 - Secure user authentication using JWT.
 - Product image storage via Firebase.
