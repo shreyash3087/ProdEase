@@ -1,13 +1,9 @@
 "use client"
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import Image from 'next/image';
-import { 
-  signInWithEmailAndPassword, 
-  createUserWithEmailAndPassword, 
-  signInWithPopup,
-  googleProvider
-} from "../../lib/firebase"
+
+import { auth, signInWithEmailAndPassword, createUserWithEmailAndPassword, signInWithPopup, googleProvider } from "../../lib/firebase";
+
 
 export default function AuthPage() {
   const [email, setEmail] = useState('');
@@ -21,11 +17,11 @@ export default function AuthPage() {
     setError('');
     try {
       if (isLogin) {
-        await signInWithEmailAndPassword(email, password);
+        await signInWithEmailAndPassword(auth, email, password);
       } else {
-        await createUserWithEmailAndPassword(email, password);
+        await createUserWithEmailAndPassword(auth, email, password);
       }
-      router.push('/dashboard');
+      router.push('/home');
     } catch (err) {
       setError(err.message);
     }
@@ -33,8 +29,8 @@ export default function AuthPage() {
 
   const handleGoogleSignIn = async () => {
     try {
-      await signInWithPopup(googleProvider);
-      router.push('/dashboard');
+      await signInWithPopup(auth, googleProvider);
+      router.push('/home');
     } catch (err) {
       setError(err.message);
     }
