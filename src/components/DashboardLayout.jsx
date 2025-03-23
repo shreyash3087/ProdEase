@@ -14,11 +14,11 @@ export function DashboardLayout({ children }) {
   return (
     <div className="min-h-screen flex">
       {/* Sidebar */}
-      <div className="w-64 bg-purple-700 text-white fixed h-full">
+      <div className="w-64 bg-[#035d4e] text-white fixed h-full">
         <div className="p-6">
           <a href="/home">
           <h2 className="text-2xl font-bold">
-            Prod<span className="text-purple-300">Ease</span>
+            Prod<span className="text-[#3edac0]">Ease</span>
           </h2>
           </a>
         </div>
@@ -32,12 +32,10 @@ export function DashboardLayout({ children }) {
           <NavLink href="/dashboard/add-product" icon={<PlusCircleIcon className="h-5 w-5" />}>
             Add Product
           </NavLink>
-          <NavLink href="/orders" icon={<ShoppingCartIcon className="h-5 w-5" />}>
-            Purchase Orders
-          </NavLink>
           <NavLink href="/dashboard/invoices" icon={<DocumentTextIcon className="h-5 w-5" />}>
             Invoices
           </NavLink>
+          
         </nav>
       </div>
 
@@ -57,7 +55,7 @@ function NavLink({ href, icon, children }) {
     <a
       href={href}
       className={`flex items-center space-x-3 px-4 py-3 rounded-lg transition-colors ${
-        isActive ? 'bg-purple-600 text-white' : 'hover:bg-purple-600/50'
+        isActive ? 'bg-[#07a68c] text-white' : 'hover:bg-[#07a68c]/50'
       }`}
     >
       {icon}

@@ -32,7 +32,8 @@ function Navbar() {
   if (
     pathname === "/" ||
     pathname === "/auth" ||
-    pathname.startsWith("/dashboard")
+    pathname.startsWith("/dashboard") ||
+    pathname.startsWith("/onboarding")
   )
     return null;
 

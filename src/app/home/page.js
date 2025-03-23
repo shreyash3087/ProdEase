@@ -92,9 +92,7 @@ export default function HomePage() {
             Welcome to <span className="text-[#6ce5d1]">ProdEase</span>
           </h1>
           <p className="text-2xl font-light mb-10 max-w-2xl mx-auto drop-shadow-lg">
-            ProdEase is the central hub for a fictional product based
-            company&apos;s team members and admins to manage all products with
-            ease and efficiency.
+          Your all-in-one Business Management System to simplify inventory, invoicing, and vendor management.
           </p>
           <div
             onClick={scrollToGetStarted}
@@ -146,17 +144,15 @@ export default function HomePage() {
           Premier Hub for Managing Products
         </h1>
         <span className="mt-8 max-w-lg text-center text-xl leading-relaxed text-gray-800">
-          Whether you&lsquo;re an admin or a valued member of the ProdEase
-          community, dive in to seamlessly oversee and manage products and
-          services.
+        Whether you're an buisness owner or a valued member of the ProdEase community, dive in to seamlessly oversee products and services, track inventory in real time, and streamline invoicing—all in one place!  
         </span>
         <p className="mt-3 rounded border px-3 py-1 shadow">
           🚀 <span className="text-accent font-semibold">Explore</span> your
-          perks as an Admin or Member
+          perks as a member of ProdEase
         </p>
         <div className="mt-12 grid grid-cols-1 gap-8 sm:grid-cols-2 sm:gap-0 sm:gap-x-4">
           <a
-            href="/register"
+            href="/dashboard"
             className="flex flex-row items-center justify-center gap-x-2 rounded-lg text-white px-10 py-3 bg-teal-500"
           >
             <svg
@@ -174,7 +170,7 @@ export default function HomePage() {
               <path d="M26.55,49.4l-.69,5.3a.27.27,0,0,0,.37.28l9-3.92a2.69,2.69,0,0,0,1.53-1.89l1.38-6.59"></path>
               <path d="M22.21,48.13c-2.37,7.41-14.1,7.78-14.1,7.78S8,44.51,15.76,41.67"></path>
             </svg>
-            Get Started By Signup
+            Get Started
           </a>
           <a
             href="#demo"
@@ -197,37 +193,36 @@ export default function HomePage() {
             About <span className="text-[#4cae9e]">ProdEase</span>
           </h2>
           <p className="mt-4 text-lg text-gray-700 max-w-4xl mx-auto">
-            ProdEase is your all-in-one product management solution within the
-            ProdEase ecosystem. Whether you are an admin managing the entire
-            inventory or a team member with an idea in mind, ProdEase provides a
-            seamless experience tailored to your needs.
+          ProdEase is a powerful business management solution designed to enhance operational efficiency for retail and product-based businesses. Whether you’re an admin overseeing inventory or a team member contributing ideas, ProdEase ensures a smooth and intuitive experience.
           </p>
           <div className="mt-12 grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="bg-gray-100 p-8 rounded-lg shadow-lg">
+            <div className="bg-gray-100 p-8 rounded-lg shadow-lg text-left">
               <h3 className="text-xl font-semibold text-gray-800 mb-3">
-                Centralized Dashboard
+              Dashboard & Tracking
               </h3>
+            
               <p className="text-gray-600">
-                View and manage all product information from a single dashboard.
-                Admins can also create new products effortlessly.
+              ✅ Centralized Dashboard – View and manage all products, vendors, and financial transactions in one place.
+              <br/>
+              ✅ Inventory & Procurement Tracking – Get automated alerts for low stock, track shipments, and streamline purchase orders.
               </p>
             </div>
-            <div className="bg-gray-100 p-8 rounded-lg shadow-lg">
+            <div className="bg-gray-100 p-8 rounded-lg shadow-lg text-left">
               <h3 className="text-xl font-semibold text-gray-800 mb-3">
-                Collaborative Tools
+              Financial Management
               </h3>
               <p className="text-gray-600">
-                Work together, Submit a change as a member and let the admin
-                review and approve it.
+              ✅ Automated Invoicing – Generate invoices instantly and manage payments efficiently.
               </p>
             </div>
-            <div className="bg-gray-100 p-8 rounded-lg shadow-lg">
+            <div className="bg-gray-100 p-8 rounded-lg shadow-lg text-left">
               <h3 className="text-xl font-semibold text-gray-800 mb-3">
-                Analytics & Reporting
+              Access & Insights
               </h3>
               <p className="text-gray-600">
-                Monitor your submissions as a membeer and pending requests as an
-                admin in your profile
+              ✅ Role-Based Access – Assign roles and permissions for admins, managers, and employees.
+              <br/>
+              ✅ Insightful Analytics – Monitor sales trends, stock movement, and vendor performance with real-time reports.
               </p>
             </div>
           </div>
@@ -248,9 +243,7 @@ export default function HomePage() {
             Discover the Power of ProdEase
           </h2>
           <p className="mt-4 text-lg max-w-3xl mx-auto">
-            Explore how ProdEase enhances its team&lsquo;s product management
-            experience, providing intuitive dashboards for team members and
-            admins to efficiently manage and monitor inventory.
+          Enhance your team’s product and business management experience with intuitive dashboards and smart automation tools. Whether you're handling daily operations or analyzing business growth, ProdEase simplifies everything.
           </p>
         </div>
       </div>

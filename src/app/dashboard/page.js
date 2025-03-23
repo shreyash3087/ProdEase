@@ -96,7 +96,7 @@ function InventoryTable({ products }) {
         <p>No products found in inventory</p>
         <a
           href="/dashboard/add-product"
-          className="text-purple-600 hover:underline mt-2 inline-block"
+          className="text-[#60ffe4] hover:underline mt-2 inline-block"
         >
           Add your first product
         </a>

@@ -1,13 +1,24 @@
 "use client";
 import { useState } from "react";
 import { DashboardLayout } from "../../../components/DashboardLayout";
-import { doc, setDoc, getDoc, collection, query, where, getDocs, updateDoc, increment } from "firebase/firestore";
+import {
+  doc,
+  setDoc,
+  getDoc,
+  collection,
+  query,
+  where,
+  getDocs,
+  updateDoc,
+  increment,
+} from "firebase/firestore";
 import { firestore } from "../../../../lib/firebase";
 import { useRouter } from "next/navigation";
 import BarcodeScannerComponent from "react-qr-barcode-scanner";
 import { jsPDF } from "jspdf";
-import { applyPlugin } from 'jspdf-autotable'
+import { applyPlugin } from "jspdf-autotable";
 import { ToastContainer, toast } from "react-toastify";
+import { auth } from "../../../../lib/firebase";
 import "react-toastify/dist/ReactToastify.css";
 
 export default function Invoices() {
@@ -15,9 +26,9 @@ export default function Invoices() {
   const [showScanner, setShowScanner] = useState(false);
   const [invoiceItems, setInvoiceItems] = useState([]);
   const [customerDetails, setCustomerDetails] = useState({
-    name: "",
-    email: "",
-    phone: "",
+    name: "N/A",
+    email: "N/A",
+    phone: "N/A",
   });
   const [loading, setLoading] = useState(false);
 
@@ -79,142 +90,85 @@ export default function Invoices() {
   const total = subtotal + tax;
 
   // Generate PDF invoice
-  const generatePDF = () => {
-    applyPlugin(jsPDF);
-    const doc = new jsPDF();
-  
-    // Colors
-    const primaryColor = "#2c3e50";
-    const secondaryColor = "#3498db";
-    const accentColor = "#e74c3c";
-  
-    // Company Info
-    const company = {
-      name: "Tech Solutions Inc.",
-      address: "123 Business Street\nNew York, NY 10001",
-      phone: "(555) 123-4567",
-      email: "sales@techsolutions.com",
-    };
-  
-    // Styling
-    doc.setFont("helvetica");
-    doc.setFontSize(8);
-  
-    // Header Section
-    doc.setFillColor(240, 240, 240);
-    doc.rect(0, 0, 210, 40, "F");
-    
-    // Logo
-    if (company.logo) {
-      doc.addImage(company.logo, "PNG", 10, 10, 30, 30);
+  const generatePDF = async () => {
+    try {
+      applyPlugin(jsPDF);
+      const pdfDoc = new jsPDF(); // Renamed variable to pdfDoc
+
+      const user = auth.currentUser;
+      if (!user) {
+        toast.error("User not authenticated");
+        return;
+      }
+
+      // Fetch user data from Firestore
+      const userDocRef = doc(firestore, "users", user.uid); // Now using the correct Firestore doc
+      const userDoc = await getDoc(userDocRef);
+
+      if (!userDoc.exists()) {
+        toast.error("User data not found");
+        return;
+      }
+
+      const companyName = userDoc.data()?.companyName || "Your Company Name";
+      const companyAddress =
+        userDoc.data()?.companyAddress || "Your Company Address";
+
+      // Invoice Header
+      pdfDoc.setFontSize(18);
+      pdfDoc.text("Invoice", 10, 10);
+      pdfDoc.setFontSize(12);
+      pdfDoc.text(`Date: ${new Date().toLocaleDateString()}`, 10, 20);
+
+      // Company Details
+      pdfDoc.setFontSize(12);
+      pdfDoc.text(`Company Name: ${companyName}`, 10, 30);
+      pdfDoc.text(`Company Name: ${companyAddress}`, 10, 40);
+
+      // Customer Details
+      pdfDoc.text(`Customer: ${customerDetails.name}`, 10, 60);
+      pdfDoc.text(`Email: ${customerDetails.email}`, 10, 70);
+      pdfDoc.text(`Phone: ${customerDetails.phone}`, 10, 80);
+
+      // Invoice Items Table
+      pdfDoc.autoTable({
+        startY: 100,
+        head: [["Product", "Price", "Quantity", "Total"]],
+        body: invoiceItems.map((item) => [
+          item.name,
+          `Rs.${item.price.toFixed(2)}`,
+          item.quantity,
+          `Rs.${item.total.toFixed(2)}`,
+        ]),
+        headStyles: {
+          fillColor: "#2c3e50",
+          textColor: "#ffffff",
+          fontSize: 10,
+        },
+        bodyStyles: {
+          textColor: "#000000",
+          fontSize: 10,
+        },
+        alternateRowStyles: {
+          fillColor: "#f5f5f5",
+        },
+      });
+
+      const finalY = pdfDoc.autoTable.previous?.finalY || 150;
+
+      // Invoice Summary
+      pdfDoc.setFontSize(12);
+      pdfDoc.text(`Subtotal: Rs.${subtotal.toFixed(2)}`, 140, finalY + 10);
+      pdfDoc.text(`Tax (10%): Rs.${tax.toFixed(2)}`, 140, finalY + 20);
+      pdfDoc.setFont("helvetica", "bold");
+      pdfDoc.text(`Total: Rs.${total.toFixed(2)}`, 140, finalY + 30);
+
+      // Save the PDF
+      pdfDoc.save(`invoice_${Date.now()}.pdf`);
+    } catch (err) {
+      toast.error("Failed to generate PDF");
+      console.error("Error:", err);
     }
-  
-    // Company Info
-    doc.setFontSize(12);
-    doc.setFont("helvetica", "bold");
-    doc.text(company.name, 150, 15);
-    doc.setFont("helvetica", "normal");
-    doc.setFontSize(10);
-    doc.text(company.address, 150, 22);
-    doc.text(`Phone: ${company.phone}`, 150, 30);
-    doc.text(`Email: ${company.email}`, 150, 38);
-  
-    // Invoice Title
-    doc.setFontSize(20);
-    doc.setFont("helvetica", "bold");
-    doc.setTextColor(primaryColor);
-    doc.text("INVOICE", 10, 60);
-    doc.setFontSize(10);
-    doc.text(`Invoice #: ${Math.floor(1000 + Math.random() * 9000)}`, 10, 67);
-    doc.text(`Date: ${new Date().toLocaleDateString()}`, 10, 74);
-  
-    // Client Info
-    doc.setFontSize(11);
-    doc.setFont("helvetica", "bold");
-    doc.text("BILL TO:", 10, 90);
-    doc.setFont("helvetica", "normal");
-    doc.text(customerDetails.name, 10, 97);
-    doc.text(customerDetails.address || "123 Client Street", 10, 104);
-    doc.text(customerDetails.email, 10, 111);
-    doc.text(customerDetails.phone, 10, 118);
-  
-    // Table Header
-    const headers = [["Product", "Price", "Quantity", "Total"]];
-    const body = invoiceItems.map(item => [
-      item.name,
-      `$₹{item.price.toFixed(2)}`,
-      item.quantity,
-      `$₹{item.total.toFixed(2)}`
-    ]);
-  
-    // Add Table
-    doc.autoTable({
-      startY: 130,
-      head: headers,
-      body: body,
-      theme: "striped",
-      headStyles: {
-        fillColor: primaryColor,
-        textColor: 255,
-        fontSize: 10
-      },
-      columnStyles: {
-        0: {cellWidth: 60},
-        1: {cellWidth: 40},
-        2: {cellWidth: 30},
-        3: {cellWidth: 40}
-      },
-      styles: {
-        fontSize: 10,
-        cellPadding: 2,
-        halign: "right"
-      },
-      bodyStyles: {
-        textColor: 40
-      },
-      alternateRowStyles: {
-        fillColor: 245
-      },
-      columns: [
-        {header: "Product", dataKey: "product"},
-        {header: "Price", dataKey: "price"},
-        {header: "Quantity", dataKey: "quantity"},
-        {header: "Total", dataKey: "total"}
-      ]
-    });
-  
-    // Summary Section
-    const finalY = doc.autoTable.previous?finalY + 10:50;
-    
-    doc.setFontSize(12);
-    doc.setFont("helvetica", "bold");
-    doc.setTextColor(primaryColor);
-    doc.text("Payment Summary", 140, finalY);
-    
-    doc.setFont("helvetica", "normal");
-    doc.setTextColor(0);
-    doc.setFontSize(10);
-    
-    doc.text("Subtotal:", 140, finalY + 10);
-    doc.text(`$₹{subtotal.toFixed(2)}`, 180, finalY + 10);
-    
-    doc.text("Tax (10%):", 140, finalY + 18);
-    doc.text(`$₹{tax.toFixed(2)}`, 180, finalY + 18);
-    
-    doc.setFont("helvetica", "bold");
-    doc.setTextColor(accentColor);
-    doc.text("Total:", 140, finalY + 26);
-    doc.text(`$₹{total.toFixed(2)}`, 180, finalY + 26);
-  
-    // Footer
-    doc.setFontSize(8);
-    doc.setTextColor(100);
-    doc.text("Thank you for your business!", 10, 280);
-    doc.text("Terms: Payment due within 30 days", 10, 285);
-    doc.text("Late payments subject to 5% monthly interest", 10, 290);
-  
-    // Save
-    doc.save(`invoice_${Date.now()}.pdf`);
   };
 
   const saveInvoice = async () => {
@@ -232,7 +186,7 @@ export default function Invoices() {
 
       // Update stock for each product in the invoice
       for (const item of invoiceItems) {
-        const productRef = doc(firestore, "products", item.id); // Use the document ID
+        const productRef = doc(firestore, "products", item.id);
         await updateDoc(productRef, {
           stock: increment(-item.quantity),
         });
@@ -322,7 +276,7 @@ export default function Invoices() {
           <h2 className="text-xl font-semibold mb-4">Invoice Items</h2>
           <button
             onClick={() => setShowScanner(true)}
-            className="mb-4 py-2 px-4 bg-purple-600 text-white rounded-lg hover:bg-purple-700"
+            className="mb-4 py-2 px-4 bg-[#0a9b83] text-white rounded-lg hover:bg-[#0a9b83]"
           >
             Scan Product
           </button>
@@ -334,7 +288,7 @@ export default function Invoices() {
               <div>
                 <p className="font-medium">{item.name}</p>
                 <p className="text-sm text-gray-600">
-                ₹{item.price.toFixed(2)}
+                  ₹{item.price.toFixed(2)}
                 </p>
               </div>
               <div className="flex items-center gap-4">
@@ -367,7 +321,7 @@ export default function Invoices() {
         <div className="flex gap-4">
           <button
             onClick={generatePDF}
-            className="py-2 px-4 bg-purple-600 text-white rounded-lg hover:bg-purple-700"
+            className="py-2 px-4 bg-[#0a9b83] text-white rounded-lg hover:bg-[#3d6f67]"
           >
             Download PDF
           </button>

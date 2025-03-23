@@ -99,7 +99,7 @@ export default function ManageInventory() {
           <h1 className="text-3xl font-bold text-gray-800">Manage Inventory</h1>
           <button
             onClick={() => router.push("/dashboard/add-product")}
-            className="bg-purple-600 text-white px-4 py-2 rounded-lg hover:bg-purple-700 flex items-center"
+            className="bg-[#0a9b83] text-white px-4 py-2 rounded-lg hover:bg-[#0a9b83] flex items-center"
           >
             <PlusCircleIcon className="h-5 w-5 mr-2" />
             Add New Product

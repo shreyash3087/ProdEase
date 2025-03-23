@@ -6,8 +6,8 @@ import { firestore } from "../../../../lib/firebase";
 import { useRouter } from "next/navigation";
 import BarcodeScannerComponent from "react-qr-barcode-scanner";
 import axios from "axios";
-import { ToastContainer ,toast } from "react-toastify";
-import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 export default function AddProduct() {
   const router = useRouter();
   const [showScanner, setShowScanner] = useState(false);
@@ -27,17 +27,17 @@ export default function AddProduct() {
     if (!upc) {
       return;
     }
-  
+
     setShowScanner(false);
     setScanLoading(true);
     setError("");
-  
+
     try {
       const response = await axios.get(`/api/upcLookup?upc=${upc}`);
       if (response.data?.products?.length > 0) {
         const product = response.data.products[0];
         const price = product.stores?.length > 0 ? product.stores[0].price : 0;
-      
+
         setFormData((prev) => ({
           ...prev,
           upc,
@@ -45,7 +45,6 @@ export default function AddProduct() {
           price: Number(price) || 0,
           vendor: product.brand?.trim() || "",
         }));
-        
       } else {
         setFormData((prev) => ({ ...prev, upc }));
         setError("Product not found - fill remaining fields manually");
@@ -57,7 +56,7 @@ export default function AddProduct() {
       setScanLoading(false);
     }
   };
-  
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -89,38 +88,11 @@ export default function AddProduct() {
   return (
     <DashboardLayout>
       <ToastContainer position="top-right" autoClose={3000} />
-      <div className="max-w-2xl mx-auto">
-        <div className="bg-white p-8 rounded-xl shadow-sm border border-purple-100">
+      <div className="max-w-full border border-green-100 flex mx-auto bg-white rounded-xl shadow-sm">
+        <div className=" p-8 w-full max-w-4xl">
           <h1 className="text-3xl font-bold text-gray-800 mb-6">
             Add New Product
           </h1>
-
-          {/* Barcode Scanner Section */}
-          {showScanner && (
-            <div className="mb-8 bg-gray-100 p-4 rounded-lg relative">
-              <button
-                onClick={() => setShowScanner(false)}
-                className="absolute top-2 right-2 text-gray-600 hover:text-purple-600 z-10"
-              >
-                ✕
-              </button>
-              <BarcodeScannerComponent
-                width="100%"
-                height="300"
-                onUpdate={(err, result) => {
-                  if (result?.text) {
-                    handleScan(result.text);
-                  }
-                }}
-                torch={true}
-                facingMode="environment"
-                stopStream={!showScanner}
-              />
-              <p className="text-center mt-4 text-gray-600">
-                Point camera at product barcode
-              </p>
-            </div>
-          )}
 
           {/* Scan Button */}
           {!showScanner && (
@@ -128,7 +100,7 @@ export default function AddProduct() {
               <button
                 type="button"
                 onClick={() => setShowScanner(true)}
-                className="w-full py-3 px-6 bg-purple-100 text-purple-600 rounded-lg hover:bg-purple-200 transition-colors flex items-center justify-center"
+                className="w-full py-3 px-6 bg-[#07a68c] text-white rounded-lg hover:bg-[#7ce4d3] cursor-pointer transition-colors flex items-center justify-center"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -149,7 +121,7 @@ export default function AddProduct() {
 
           {/* Loading State */}
           {scanLoading && (
-            <div className="mb-6 text-center text-purple-600">
+            <div className="mb-6 text-center text-[#07a68c]">
               <svg
                 className="animate-spin h-5 w-5 mx-auto"
                 xmlns="http://www.w3.org/2000/svg"
@@ -190,7 +162,7 @@ export default function AddProduct() {
               <input
                 type="text"
                 required
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-1 focus:ring-[#07a68c] focus:border-transparent"
                 value={formData.name}
                 onChange={(e) =>
                   setFormData({ ...formData, name: e.target.value })
@@ -209,7 +181,7 @@ export default function AddProduct() {
                 <input
                   type="text"
                   required
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-1 focus:ring-[#07a68c] focus:border-transparent"
                   value={formData.upc}
                   onChange={(e) =>
                     setFormData({ ...formData, upc: e.target.value })
@@ -218,7 +190,7 @@ export default function AddProduct() {
                 <button
                   type="button"
                   onClick={() => setShowScanner(true)}
-                  className="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors"
+                  className="px-4 py-2 bg-[#07a68c] text-white rounded-lg hover:bg-[#07a68c] transition-colors"
                 >
                   Scan
                 </button>
@@ -234,7 +206,7 @@ export default function AddProduct() {
               </label>
               <input
                 type="text"
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-1 focus:ring-[#07a68c] focus:border-transparent"
                 value={formData.sku}
                 onChange={(e) =>
                   setFormData({ ...formData, sku: e.target.value })
@@ -251,7 +223,7 @@ export default function AddProduct() {
                   type="number"
                   min="0"
                   required
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-1 focus:ring-[#07a68c] focus:border-transparent"
                   value={formData.stock}
                   onChange={(e) =>
                     setFormData({ ...formData, stock: e.target.value })
@@ -268,7 +240,7 @@ export default function AddProduct() {
                   min="0"
                   step="0.01"
                   required
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-1 focus:ring-[#07a68c] focus:border-transparent"
                   value={formData.price}
                   onChange={(e) =>
                     setFormData({ ...formData, price: e.target.value })
@@ -283,7 +255,7 @@ export default function AddProduct() {
               </label>
               <input
                 type="text"
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-1 focus:ring-[#07a68c] focus:border-transparent"
                 value={formData.vendor}
                 onChange={(e) =>
                   setFormData({ ...formData, vendor: e.target.value })
@@ -294,11 +266,43 @@ export default function AddProduct() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full bg-purple-600 text-white py-3 px-6 rounded-lg hover:bg-purple-700 transition-colors disabled:opacity-50"
+              className="w-full bg-[#07a68c] cursor-pointer text-white py-3 px-6 rounded-lg hover:bg-[#498b80] transition-colors disabled:opacity-50"
             >
               {loading ? "Adding Product..." : "Add Product"}
             </button>
           </form>
+        </div>
+        <div className="w-full">
+        {!showScanner && (
+          <div className="text-sm text-center flex w-full border-l-[1px] m-4 border-gray-400 justify-center h-full items-center">
+            Click on Scan to Start the Barcode Reader
+          </div>
+        )}
+          {showScanner && (
+            <div className="mb-8 bg-gray-100 p-4 rounded-lg relative">
+              <button
+                onClick={() => setShowScanner(false)}
+                className="absolute top-2 right-2 text-gray-600 hover:text-[#07a68c] z-10"
+              >
+                ✕
+              </button>
+              <BarcodeScannerComponent
+                width="100%"
+                height="300"
+                onUpdate={(err, result) => {
+                  if (result?.text) {
+                    handleScan(result.text);
+                  }
+                }}
+                torch={true}
+                facingMode="environment"
+                stopStream={!showScanner}
+              />
+              <p className="text-center mt-4 text-gray-600">
+                Point camera at product barcode
+              </p>
+            </div>
+          )}
         </div>
       </div>
     </DashboardLayout>
