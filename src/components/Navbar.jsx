@@ -1,38 +1,16 @@
-"use client"
+"use client";
 import React, { useEffect, useState } from "react";
-import { 
-  HomeIcon, 
-  ChartBarIcon, 
-  DocumentTextIcon, 
-  ShoppingCartIcon, 
-  UserCircleIcon, 
-  BellIcon 
-} from '@heroicons/react/24/outline';
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
+import { motion } from "framer-motion";
+import { Menu, X, Bell, User } from "react-feather";
 import { auth } from "../../lib/firebase";
-import { signOut } from "../../lib/firebase";
-
-function NavLink({ href, icon, children }) {
-  const pathname = usePathname();
-  const isActive = pathname === href;
-
-  return (
-    <Link 
-      href={href} 
-      className={`flex items-center space-x-2 px-3 py-2 rounded-md transition-colors ${
-        isActive ? "bg-purple-900" : "hover:bg-purple-800"
-      }`}
-    >
-      {icon}
-      <span>{children}</span>
-    </Link>
-  );
-}
+import { signOut } from "firebase/auth";
 
 function Navbar() {
   const pathname = usePathname();
   const router = useRouter();
+  const [isOpen, setIsOpen] = useState(false);
   const [user, setUser] = useState(null);
 
   useEffect(() => {
@@ -44,72 +22,168 @@ function Navbar() {
 
   const handleLogout = async () => {
     try {
-      await signOut();
-      router.push('/auth');
+      await signOut(auth);
+      router.push("/");
     } catch (err) {
-      console.error('Logout failed:', err);
+      console.error("Logout failed:", err);
     }
   };
 
-  if (pathname === "/" || pathname === "/auth") return null;
+  if (
+    pathname === "/" ||
+    pathname === "/auth" ||
+    pathname.startsWith("/dashboard")
+  )
+    return null;
+
+  const isActive = (href) => pathname === href;
 
   return (
-    <div className="bg-gradient-to-r from-purple-700 to-purple-800 text-white shadow-lg fixed w-full z-10">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16">
-          <Link href="/" className="flex-shrink-0 flex items-center">
-            <span className="text-2xl font-bold tracking-wide">
-              Prod<span className="text-purple-300">Ease</span>
-            </span>
-          </Link>
+    <header className="bg-white shadow-lg sticky top-0 z-50">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between h-16">
+        {/* Logo */}
+        <Link
+          href="/home"
+          className="text-2xl font-extrabold text-[#4cae9e] flex items-center"
+        >
+          ProdEase
+        </Link>
 
-          <div className="hidden md:flex items-center space-x-8">
-            <NavLink href="/dashboard" icon={<ChartBarIcon className="h-5 w-5" />}>
-              Dashboard
-            </NavLink>
-            <NavLink href="/inventory" icon={<HomeIcon className="h-5 w-5" />}>
-              Inventory
-            </NavLink>
-            <NavLink href="/invoices" icon={<DocumentTextIcon className="h-5 w-5" />}>
-              Invoices
-            </NavLink>
-            <NavLink href="/orders" icon={<ShoppingCartIcon className="h-5 w-5" />}>
-              Orders
-            </NavLink>
-          </div>
+        {/* Desktop Navigation */}
+        <div className="hidden md:flex space-x-8 items-center">
+          <NavLink href="/dashboard" isActive={isActive("/dashboard")}>
+            Dashboard
+          </NavLink>
+          <NavLink
+            href="/dashboard/manage-inventory"
+            isActive={isActive("/dashboard/manage-inventory")}
+          >
+            Inventory
+          </NavLink>
+          <NavLink
+            href="/dashboard/invoices"
+            isActive={isActive("/dashboard/invoices")}
+          >
+            Invoices
+          </NavLink>
+          <NavLink
+            href="/dashboard/orders"
+            isActive={isActive("/dashboard/orders")}
+          >
+            Orders
+          </NavLink>
+        </div>
 
-          <div className="flex items-center space-x-4">
-            <button 
-              className="p-2 rounded-lg hover:bg-purple-500 transition-colors"
-              aria-label="Notifications"
+        {/* Right Section */}
+        <div className="flex items-center gap-4">
+          <button className="text-gray-800 hover:text-[#4cae9e] transition-colors">
+            <Bell size={24} />
+          </button>
+          <div className="h-6 w-px bg-gray-300" />
+
+          {user ? (
+            <button
+              onClick={handleLogout}
+              className="bg-[#4cae9e] px-4 py-2 rounded-lg text-white hover:bg-[#347c70] transition-colors flex items-center gap-2"
             >
-              <BellIcon className="h-6 w-6" />
+              <User size={20} />
+              <span>Logout</span>
             </button>
-            <div className="h-8 w-px bg-purple-400"></div>
+          ) : (
+            <Link
+              href="/auth"
+              className="bg-[#4cae9e] px-4 py-2 rounded-lg text-white hover:bg-[#347c70] transition-colors flex items-center gap-2"
+            >
+              <User size={20} />
+              <span>Login</span>
+            </Link>
+          )}
+        </div>
+
+        {/* Mobile Menu Button */}
+        <button
+          onClick={() => setIsOpen(!isOpen)}
+          className="md:hidden text-gray-800 hover:text-[#4cae9e]"
+        >
+          {isOpen ? <X size={24} /> : <Menu size={24} />}
+        </button>
+      </div>
+
+      {/* Mobile Menu */}
+      <motion.div
+        initial={{ opacity: 0, height: 0 }}
+        animate={{ opacity: isOpen ? 1 : 0, height: isOpen ? "auto" : 0 }}
+        className="md:hidden overflow-hidden"
+      >
+        <div className="px-4 pb-4 flex flex-col gap-2">
+          <MobileNavLink href="/dashboard" isActive={isActive("/dashboard")}>
+            Dashboard
+          </MobileNavLink>
+          <MobileNavLink
+            href="/dashboard/manage-inventory"
+            isActive={isActive("/dashboard/manage-inventory")}
+          >
+            Inventory
+          </MobileNavLink>
+          <MobileNavLink
+            href="/dashboard/invoices"
+            isActive={isActive("/dashboard/invoices")}
+          >
+            Invoices
+          </MobileNavLink>
+          <MobileNavLink
+            href="/dashboard/orders"
+            isActive={isActive("/dashboard/orders")}
+          >
+            Orders
+          </MobileNavLink>
+
+          <div className="mt-4 border-t pt-4">
             {user ? (
-              <button 
+              <button
                 onClick={handleLogout}
-                className="flex items-center space-x-2 hover:bg-purple-500 p-2 rounded-lg transition-colors"
-                aria-label="Logout"
+                className="w-full bg-[#4cae9e] text-white py-2 rounded-lg hover:bg-[#347c70] transition-colors"
               >
-                <UserCircleIcon className="h-7 w-7" />
-                <span className="hidden md:inline">Logout</span>
+                Logout
               </button>
             ) : (
-              <Link 
+              <Link
                 href="/auth"
-                className="flex items-center space-x-2 hover:bg-purple-500 p-2 rounded-lg transition-colors"
-                aria-label="Login"
+                className="w-full bg-[#4cae9e] text-white py-2 rounded-lg hover:bg-[#347c70] transition-colors block text-center"
               >
-                <UserCircleIcon className="h-7 w-7" />
-                <span className="hidden md:inline">Login</span>
+                Login
               </Link>
             )}
           </div>
         </div>
-      </div>
-    </div>
+      </motion.div>
+    </header>
   );
 }
+
+// Helper components
+const NavLink = ({ href, children, isActive }) => (
+  <Link
+    href={href}
+    className={`${
+      isActive ? "text-[#4cae9e]" : "text-gray-800 hover:text-[#4cae9e]"
+    } transition-colors`}
+  >
+    {children}
+  </Link>
+);
+
+const MobileNavLink = ({ href, children, isActive }) => (
+  <Link
+    href={href}
+    className={`${
+      isActive
+        ? "text-[#4cae9e] font-medium"
+        : "text-gray-800 hover:text-[#4cae9e]"
+    } py-2 transition-colors`}
+  >
+    {children}
+  </Link>
+);
 
 export default Navbar;

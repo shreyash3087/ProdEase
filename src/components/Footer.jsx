@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import React from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -29,9 +29,9 @@ function SocialIcon({ href, children }) {
 function Footer() {
   const pathname = usePathname();
 
-  if (pathname === "/") return null;
+  if (pathname === "/" || pathname === "/auth" || pathname.startsWith("/dashboard")) return null;
   return (
-    <footer className="bg-gradient-to-r from-purple-800 to-purple-900 text-white mt-12">
+    <footer className="bg-gradient-to-r from-[#035d4e] to-[#03594b] text-white mt-12">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           <div>
